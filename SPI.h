@@ -51,13 +51,13 @@ class WSPI
     void begin();
     static void end();
     uint8_t transfer(uint8_t);
-    static void setBitOrder(uint8_t);
+    static inline void setBitOrder(uint8_t);
     static inline void setDataMode(uint8_t) {};
     static void setClockDivider(uint8_t);
 };
 
 
-static inline void WSPI::setBitOrder(uint8_t bitOrder) {
+inline void WSPI::setBitOrder(uint8_t bitOrder) {
   if(bitOrder == LSBFIRST) {
     SPCR |= _BV(DORD);
   } else {
