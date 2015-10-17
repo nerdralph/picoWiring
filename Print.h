@@ -32,23 +32,14 @@
 class Print
 {
   public:
-    Print() : write_error(0) {}
+    Print() {}
   
-    int getWriteError() { return write_error; }
-    void clearWriteError() { setWriteError(0); }
-  
-    // pure virtual - must be implemented by derived class
-    //virtual void write(uint8_t) = 0;
-
-    // virtual - can be redefined (polymorphic class)
-    //virtual void write(const char *str);
-    //virtual void write(const uint8_t *buffer, size_t size);
-
     virtual size_t write(uint8_t) = 0;
     size_t write(const char *str) {
       if (str == NULL) return 0;
       return write((const uint8_t *)str, strlen(str));
     }
+
     virtual size_t write(const uint8_t *buffer, size_t size);
     size_t write(const char *buffer, size_t size) {
       return write((const uint8_t *)buffer, size);
@@ -88,11 +79,8 @@ class Print
     size_t println(const String &s);
 
   private:
-    int write_error;
     size_t printNumber(unsigned long, uint8_t);
     size_t printFloat(double, uint8_t);
-  protected:
-    void setWriteError(int err = 1) { write_error = err; }
 };
 
 #endif  // __cplusplus

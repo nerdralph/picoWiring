@@ -41,7 +41,7 @@
 
 #if defined(USART1_RX_vect)
 #undef SERIALPORTS
-// Some AVRs have 1 USB and a single USART - USART1
+// Some AVRs have 1 USB and a single USART - USART1 i.e. m32u4
 #if !defined(USART0_RX_vect)
 #define SERIALPORTS 1
 #define SINGLEUSART1
@@ -55,24 +55,11 @@
 
 class HardwareSerial : public Stream
 {
-  private:
-    volatile uint8_t *_ubrrh;
-    volatile uint8_t *_ubrrl;
-    volatile uint8_t *_ucsra;
-    volatile uint8_t *_ucsrb;
-    volatile uint8_t *_ucsrc;
-    volatile uint8_t *_udr;
-    uint8_t peekchar;
   public:
-    HardwareSerial(uint8_t SerialPortNumber);
-    void begin(const uint32_t baud = 9600,
-               const uint8_t data_bits = 8,
-               const uint8_t stop_bits = 1,
-               const uint8_t parity = 0);
+    void begin(const uint32_t baud);
     void end();
     int available(void);
     int read(void);
-    int peek(void);
     inline void flush(void){};
     size_t write(uint8_t);
 };
