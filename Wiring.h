@@ -35,6 +35,9 @@
 // 8-pin t13 and tinyx5
 #endif
 
+#include <WHardwareSerial.h>
+#include <WMath.h>
+
 #define digitalWrite(PIN, VALUE) pinWrite(PIN, VALUE)
 #define digitalRead(PIN) pinRead(PIN)
 
@@ -81,12 +84,12 @@ static inline void pinWrite(uint8_t PIN, uint8_t VALUE)
     }
 }
 
-#include <util/delay.h>
-#define delay(millisecs) _delay_ms(millisecs)
+void delay(uint16_t millisecs);
 
 // main program prototypes
 void setup(void);
 void loop(void);
+
 
 #endif
 // WDIGITAL_H

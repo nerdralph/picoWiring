@@ -23,7 +23,7 @@
 
 void WSPI::begin()
 {
-//    pinMode(SS, OUTPUT);
+    pinMode(SS, OUTPUT);
     pinMode(SCK, OUTPUT);
     pinMode(MOSI, OUTPUT);
 
@@ -35,6 +35,7 @@ void WSPI::begin()
 
 void WSPI::end() {
     SPCR &= ~_BV(SPE);
+    pinMode(SS, INPUT);
     pinMode(SCK, INPUT);
     pinMode(MOSI, INPUT);
 }
