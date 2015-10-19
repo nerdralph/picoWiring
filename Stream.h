@@ -31,26 +31,14 @@ class Stream : public Print
 {
   public:
     //virtual ~Stream() {}
-    virtual int available() = 0;
+    int available();
 
     // no peek to keep things simple
     //virtual int peek() = 0;
-    virtual int read() = 0;
+    int read();
     void flush() {};
   
     Stream() {}
-  // parsing methods
-  
-  
-    bool find(char *target);   // reads data from the stream until the target string is found
-  // returns true if target string is found, false otherwise
-  
-    bool find(char *target, size_t length);   // reads data from the stream until the target string of given length is found
-  // returns true if target string is found, false if timed out
-  
-    bool findUntil(char *target, char *terminator);   // as find but search ends if the terminator string is found
-  
-    bool findUntil(char *target, size_t targetLen, char *terminate, size_t termLen);   // as above but search ends if the terminate string is found
   
   
     size_t readBytes( char *buffer, size_t length); // read chars from stream into buffer

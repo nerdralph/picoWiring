@@ -83,20 +83,23 @@ void HardwareSerial::begin(const uint32_t baud)
 
   uint16_t ubrrValue;
 
-  uint16_t calcUBRRU2X;
-  uint32_t calcBaudU2X;
-
-  // Calculate for U2X (with rounding)
-  calcUBRRU2X = (F_CPU/baud + 4) / 8;
-
-  calcBaudU2X = F_CPU/8/calcUBRRU2X;
-
-  _UCSRA = 1 << U2X;
-  ubrrValue = calcUBRRU2X - 1;
+  // Calculate U2X ubrr (with rounding)
+  ubrrValue = (F_CPU/baud + 4) / 8;
 
   // assign the baud_setting, a.k.a. ubbr (USART Baud Rate Register)
-  _UBRRH = ubrrValue >> 8;
-  _UBRRL = ubrrValue;
+  if (ubrrValue > 200) {
+    // error less than 0.5% so no need for U2X
+    ubrrValue = ubrrValue;
+    if ( ubrrValue >> 8 ) {
+      // UBRRH default is 0
+      _UBRRH = ubrrValue >> 8;
+    }
+  }
+  else {
+    _UCSRA = 1 << U2X;
+  }
+
+  _UBRRL = ubrrValue -1;
   _UCSRB = (1 << RXEN) | (1 << TXEN);
 }
 
@@ -107,13 +110,13 @@ void HardwareSerial::end()
 }
 
 
-int HardwareSerial::available(void)
+int Stream::available(void)
 {
   return (_UCSRA & (1<<RXC)); 
 }
 
 
-int HardwareSerial::read(void)
+int Stream::read(void)
 {
   if ( available() )
     return _UDR;
@@ -122,7 +125,7 @@ int HardwareSerial::read(void)
 }
 
 
-size_t HardwareSerial::write(uint8_t c)
+size_t Print::write(uint8_t c)
 {
   // We will block here until we have some space free in the FIFO
   while ( !(_UCSRA & (1<<UDRE)) ); 

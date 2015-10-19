@@ -30,59 +30,6 @@
 // Public Methods
 //////////////////////////////////////////////////////////////
 
-// find returns true if the target string is found
-bool  Stream::find(char *target)
-{
-  return findUntil(target, "");
-}
-
-// reads data from the stream until the target string of given length is found
-// returns true if target string is found
-bool Stream::find(char *target, size_t length)
-{
-  return findUntil(target, length, NULL, 0);
-}
-
-// as find but search ends if the terminator string is found
-bool  Stream::findUntil(char *target, char *terminator)
-{
-  return findUntil(target, strlen(target), terminator, strlen(terminator));
-}
-
-// reads data from the stream until the target string of the given length is found
-// search terminated if the terminator string is found
-// returns true if target string is found, false if terminated or no data
-bool Stream::findUntil(char *target, size_t targetLen, char *terminator, size_t termLen)
-{
-  size_t index = 0;  // maximum target string length is 64k bytes!
-  size_t termIndex = 0;
-  int c;
-  
-  if( *target == 0)
-  return true;   // return true if target is a null string
-  while( available() && (c = read()) ){
-    
-    if(c != target[index])
-    index = 0; // reset index if any char does not match
-    
-    if( c == target[index]){
-      //////Serial.print("found "); Serial.write(c); Serial.print("index now"); Serial.println(index+1);
-      if(++index >= targetLen){ // return true if all chars in the target match
-        return true;
-      }
-    }
-    
-    if(termLen > 0 && c == terminator[termIndex]){
-      if(++termIndex >= termLen)
-      return false;       // return false if terminate string found before target string
-    }
-    else
-    termIndex = 0;
-  }
-  return false;
-}
-
-
 // read characters from stream into buffer
 // terminates if length characters have been read, or no more available
 // returns the number of characters placed in the buffer

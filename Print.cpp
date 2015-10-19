@@ -23,14 +23,6 @@
 #include "Print.h"
 
 
-
-/*
-|| @description
-|| | Virtual method - may be redefined in derived class (polymorphic)
-|| | write()s a specific length string.
-|| #
-*/
-
 size_t Print::write(const uint8_t *buffer, size_t size)
 {
   size_t n = 0;

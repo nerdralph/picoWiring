@@ -58,10 +58,7 @@ class HardwareSerial : public Stream
   public:
     void begin(const uint32_t baud);
     void end();
-    int available(void);
-    int read(void);
-    inline void flush(void){};
-    size_t write(uint8_t);
+    // rest of methods inherited
 };
 
 #if !defined(SINGLEUSART1)
